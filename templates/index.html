@@ -9,15 +9,7 @@
 // var socket = io.connect('http://81.69.195.45');
 var socket = io.connect('http://127.0.0.1');
 
-window.onbeforeunload = function (e) {
-	socket.emit("disconnected", encodeURI("User left."));
-};
 
-window.onpageshow = function(event) {
-    if (event.persisted) {
-        window.location.reload() 
-    }
-};
 
 function sendMsg(){
 	t = $("#myMessage").val();
@@ -32,7 +24,7 @@ $(document).ready(function() {
 	});
 
 	socket.on('connect', function() {
-		socket.emit("connected", 'User has connected!');
+		console.log("connect success");
 	});
 
 	socket.on('message', function(msg) {

@@ -35,7 +35,22 @@ def handleDisconnected(msg):
     total_online -= 1
     print("emitting total")
     emit("updateOnlineCount", total_online, broadcast=True)
-    
+   
+@socketio.on('connect')
+def handleConnect():
+    print("A user comes.")
+    global total_online
+    total_online += 1
+    print("current total:", total_online)
+    emit("updateOnlineCount", total_online, broadcast=True)
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print("A user leaves.")
+    global total_online
+    total_online -= 1
+    print("emitting total")
+    emit("updateOnlineCount", total_online, broadcast=True)
 
 @cross_origin()
 @app.route('/', methods=['GET', 'POST'])
