@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Chat Room</title>
+<script type="text/javascript" src="lib/socket.io2.js"></script>
+<script src="lib/jquery.min.js"></script>
+</head>
+<body>
+<script type="text/javascript" charset="utf-8">
+	function sendMsg(socket){
+		t = $("#myMessage").val();
+		socket.send(encodeURI(t));
+		$("#myMessage").val('');
+	}
+
+$(document).ready(function() {
+
+	var socket = io.connect('http://81.69.195.45');
+
+	socket.on('connect', function() {
+		socket.send('User has connected!');
+	});
+
+	socket.on('message', function(msg) {
+		$("#messages").append('<li>'+decodeURI(msg)+'</li>');
+		console.log('Received message');
+	});
+
+	$('#sendbutton').on('click', function() {
+		sendMsg(socket);
+	
+	});
+
+
+	var input = document.getElementById("myMessage");
+
+	// Execute a function when the user releases a key on the keyboard
+	input.addEventListener("keyup", function(event) {
+		  // Number 13 is the "Enter" key on the keyboard
+		  if (event.keyCode === 13) {
+		  
+			sendMsg(socket); 
+		  }
+	});
+});
+
+
+
+</script>
+<ul id="messages"></ul>
+<input type="text" id="myMessage">
+<button id="sendbutton">Send</button>
+</body>
+</html>
