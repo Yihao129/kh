@@ -39,7 +39,7 @@ def test_disconnect():
 @cross_origin()
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    print("in")
+    print(request.remote_addr, "**********************")
     return render_template('index.html')
 
 @app.route('/lib/<path:path>')

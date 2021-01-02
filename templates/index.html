@@ -13,7 +13,8 @@ var socket = io.connect('http://127.0.0.1');
 function makeMsg(){
 	var msg = encodeURI($("#myMessage").val());
 	var id = $("#idShow").text();
-	return {msg: msg, id: id}
+	var time = Date.now();
+	return {msg: msg, id: id, time: time}
 }
 
 function decodeMsg(msg){
@@ -81,6 +82,8 @@ $(document).ready(function() {
 
 
 </script>
+<span>功能还在开发中, 这是点击率测试， 可加微信： wybarelychat 领取3元赏金</span><br/><br/>
+
 <span>当前在线人数: <span id="total"></span> </span> <br/><br/>
 
 <span>游戏ID： </span>
