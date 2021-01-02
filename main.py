@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, send_from_directory
 from flask_socketio import SocketIO, send, emit
 from flask_cors import cross_origin, CORS
-from urllib.parse import unquote
+from functions import *
 
 total_online = 0
 
@@ -15,26 +15,10 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 @socketio.on('message')
 def handleMessage(msg):
     print("got message")
-    m = unquote(unquote(msg))
-    print('Message: ' + m)
+    msg = decodeMsg(msg)
+    print('Message: ' + msg["msg"])
     send(msg, broadcast=True)
 
-@socketio.on('connected')
-def handleConnected(msg):
-    print("A user comes.")
-    global total_online
-    total_online += 1
-    print("current total:", total_online)
-    emit("updateOnlineCount", total_online, broadcast=True)
-    
-    
-@socketio.on('disconnected')
-def handleDisconnected(msg):
-    print("A user leaves.")
-    global total_online
-    total_online -= 1
-    print("emitting total")
-    emit("updateOnlineCount", total_online, broadcast=True)
    
 @socketio.on('connect')
 def handleConnect():
